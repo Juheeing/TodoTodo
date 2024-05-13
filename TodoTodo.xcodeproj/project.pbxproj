@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D17E5C952BF1A0DF00D87A71 /* BottomNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17E5C942BF1A0DF00D87A71 /* BottomNaviView.swift */; };
+		D17E5C982BF1A14700D87A71 /* Extension+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17E5C972BF1A14700D87A71 /* Extension+View.swift */; };
+		D17E5C9B2BF1A1D000D87A71 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17E5C9A2BF1A1D000D87A71 /* Toast.swift */; };
+		D17E5C9D2BF1A2A400D87A71 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17E5C9C2BF1A2A400D87A71 /* MyPageView.swift */; };
 		D5162B562BF0C03000214A1D /* TodoTodoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5162B552BF0C03000214A1D /* TodoTodoApp.swift */; };
 		D5162B582BF0C03000214A1D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5162B572BF0C03000214A1D /* ContentView.swift */; };
 		D5162B5A2BF0C03100214A1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5162B592BF0C03100214A1D /* Assets.xcassets */; };
@@ -15,6 +19,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D17E5C942BF1A0DF00D87A71 /* BottomNaviView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNaviView.swift; sourceTree = "<group>"; };
+		D17E5C972BF1A14700D87A71 /* Extension+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+View.swift"; sourceTree = "<group>"; };
+		D17E5C9A2BF1A1D000D87A71 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		D17E5C9C2BF1A2A400D87A71 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		D5162B522BF0C03000214A1D /* TodoTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5162B552BF0C03000214A1D /* TodoTodoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTodoApp.swift; sourceTree = "<group>"; };
 		D5162B572BF0C03000214A1D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -34,6 +42,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D17E5C962BF1A13000D87A71 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D17E5C972BF1A14700D87A71 /* Extension+View.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		D17E5C992BF1A1C200D87A71 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				D17E5C9A2BF1A1D000D87A71 /* Toast.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		D5162B492BF0C03000214A1D = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +82,8 @@
 				D5162B632BF0C07D00214A1D /* Model */,
 				D5162B642BF0C08600214A1D /* View */,
 				D5162B652BF0C08B00214A1D /* ViewModel */,
+				D17E5C962BF1A13000D87A71 /* Extension */,
+				D17E5C992BF1A1C200D87A71 /* Util */,
 				D5162B592BF0C03100214A1D /* Assets.xcassets */,
 				D5162B5B2BF0C03100214A1D /* Preview Content */,
 			);
@@ -83,6 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				D5162B662BF0C0B300214A1D /* MainView.swift */,
+				D17E5C942BF1A0DF00D87A71 /* BottomNaviView.swift */,
+				D17E5C9C2BF1A2A400D87A71 /* MyPageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -164,7 +192,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D17E5C9D2BF1A2A400D87A71 /* MyPageView.swift in Sources */,
 				D5162B582BF0C03000214A1D /* ContentView.swift in Sources */,
+				D17E5C9B2BF1A1D000D87A71 /* Toast.swift in Sources */,
+				D17E5C952BF1A0DF00D87A71 /* BottomNaviView.swift in Sources */,
+				D17E5C982BF1A14700D87A71 /* Extension+View.swift in Sources */,
 				D5162B672BF0C0B300214A1D /* MainView.swift in Sources */,
 				D5162B562BF0C03000214A1D /* TodoTodoApp.swift in Sources */,
 			);
