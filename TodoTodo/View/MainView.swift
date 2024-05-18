@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         GeometryReader {_ in
-            VStack {
+            VStack(spacing: 0) {
                 TitleView()
                 TodoListView()
                 CalendarView()
@@ -20,6 +20,9 @@ struct MainView: View {
 }
 
 struct TitleView: View {
+    
+    @State var showAddTodoView: Bool = false
+    
     var body: some View {
         HStack {
             Text("TodoTodo")
@@ -29,13 +32,16 @@ struct TitleView: View {
             Spacer()
             
             Button(action: {
-                
+                showAddTodoView.toggle()
             }, label: {
                 Image(systemName: "calendar.badge.plus")
                     .font(.system(size: 30))
                     .foregroundColor(.orange)
                     .padding(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 10))
             })
+            .sheet(isPresented: $showAddTodoView) {
+                            AddTodoView()
+            }
             
             Button(action: {
                 
@@ -72,7 +78,6 @@ struct TodoCell: View {
             Image(systemName: "photo")
                 .font(.system(size: 50))
                 .foregroundColor(.white)
-                .frame(width: 90)
                 .padding()
             
             VStack(alignment: .leading, spacing: 0) {
