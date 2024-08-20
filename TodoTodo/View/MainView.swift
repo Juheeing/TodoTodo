@@ -55,13 +55,24 @@ struct TitleView: View {
     }
 }
 
+private let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    return formatter
+}()
+
 struct TodoListView: View {
+    
+    @ObservedObject var viewModel = MainViewModel()
+    
     var body: some View {
         
         List {
-            Section(header: Text("오늘 할일")) {
-                ForEach(1...3, id: \.self) { index in
-                    TodoCell()
+            ForEach(viewModel.groupedItems.keys.sorted(), id: \.self) { date in
+                Section(header: Text("\(date, formatter: dateFormatter)")) {
+                    ForEach(viewModel.groupedItems[date] ?? []) { item in
+                        TodoCell(title: item.title, date: item.timeRemaining, image: item.image)
+                    }
                 }
             }
             .listRowInsets(EdgeInsets.init(top: 10, leading: 10, bottom: 10, trailing: 10))
@@ -73,25 +84,40 @@ struct TodoListView: View {
 }
 
 struct TodoCell: View {
+    
+    var title: String
+    var date: String
+    var image: UIImage?
+    
     var body: some View {
         HStack {
-            Image(systemName: "photo")
-                .font(.system(size: 50))
-                .foregroundColor(.white)
-                .padding()
+            ZStack {
+                if let image = image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding()
+                } else {
+                    Image(systemName: "photo")
+                        .font(.system(size: 50))
+                        .foregroundColor(.white)
+                        .padding()
+                }
+            }
+            .frame(width: 100, height: 50)
             
             VStack(alignment: .leading, spacing: 0) {
                 
                 Divider().opacity(0)
                 
-                Text("일정 제목")
+                Text(title)
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .padding(.bottom, 10)
                     .lineLimit(1)
                 
-                Text("일정까지 남은 시간")
+                Text(date)
                     .font(.footnote)
                     .foregroundColor(.gray)
             }
