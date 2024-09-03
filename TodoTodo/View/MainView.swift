@@ -57,7 +57,8 @@ struct TitleView: View {
 
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
-    formatter.dateStyle = .medium
+    formatter.dateFormat = "yyyy년 M월"
+    formatter.locale = Locale(identifier: "ko_KR")
     return formatter
 }()
 
@@ -134,11 +135,12 @@ struct CalendarView: View {
     
     var body: some View {
         DatePicker(
-            "Start Date",
+            "날짜",
             selection: $date,
             displayedComponents: [.date]
         )
         .datePickerStyle(.graphical)
+        .environment(\.locale, Locale(identifier: "ko_KR"))
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     }
 }
