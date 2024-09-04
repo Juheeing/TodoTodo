@@ -19,11 +19,11 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    init() {
+    /*init() {
         todoItems = [
             TodoItem(title: "쇼핑", dueDate: Date().addingTimeInterval(3600), image: UIImage(systemName: "cart")),
             TodoItem(title: "프로젝트", dueDate: Date().addingTimeInterval(7200), image: nil),
             TodoItem(title: "전화미팅", dueDate: Date().addingTimeInterval(108000), image: UIImage(systemName: "phone"))
         ]
-    }
+    }*/
 }

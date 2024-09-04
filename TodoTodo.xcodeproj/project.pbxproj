@@ -22,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D18FC4C02C87F81D00D1FAE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D5281DFF2C7365D900F50728 /* TodoTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5281E022C7365D900F50728 /* TodoTodoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTodoApp.swift; sourceTree = "<group>"; };
 		D5281E042C7365D900F50728 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,6 +68,7 @@
 		D5281E012C7365D900F50728 /* TodoTodo */ = {
 			isa = PBXGroup;
 			children = (
+				D18FC4C02C87F81D00D1FAE1 /* Info.plist */,
 				D5281E022C7365D900F50728 /* TodoTodoApp.swift */,
 				D5281E102C73680500F50728 /* Model */,
 				D5281E112C73680F00F50728 /* View */,
@@ -344,9 +346,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TodoTodo/Preview Content\"";
-				DEVELOPMENT_TEAM = 5MH57K7U7U;
+                DEVELOPMENT_TEAM = 5MH57K7U7U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodoTodo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME)에서 카메라에 접근하려고 합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME)에서 앨범에 접근하려고 합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -374,9 +379,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TodoTodo/Preview Content\"";
-				DEVELOPMENT_TEAM = 5MH57K7U7U;
+                DEVELOPMENT_TEAM = 5MH57K7U7U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodoTodo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME)에서 카메라에 접근하려고 합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME)에서 앨범에 접근하려고 합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -8,50 +8,58 @@
 import SwiftUI
 
 struct MainView: View {
+    
+    @ObservedObject var viewModel = MainViewModel()
+    
     var body: some View {
-        GeometryReader {_ in
-            VStack(spacing: 0) {
-                TitleView()
-                TodoListView()
-                CalendarView()
-            }
+        VStack(spacing: 0) {
+            TitleView(viewModel: viewModel)
+            TodoListView(viewModel: viewModel)
+            CalendarView()
         }
+        .background(Color(UIColor.systemGroupedBackground))
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
 struct TitleView: View {
     
+    @ObservedObject var viewModel: MainViewModel
     @State var showAddTodoView: Bool = false
     
     var body: some View {
         HStack {
             Text("TodoTodo")
-                .font(.system(size: 20).weight(.bold))
-                .padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 0))
+                .font(.system(size: 24).weight(.bold))
+                .padding(.leading, 15)
             
             Spacer()
             
-            Button(action: {
-                showAddTodoView.toggle()
-            }, label: {
-                Image(systemName: "calendar.badge.plus")
-                    .font(.system(size: 30))
-                    .foregroundColor(.orange)
-                    .padding(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 10))
-            })
-            .sheet(isPresented: $showAddTodoView) {
-                            AddTodoView()
-            }
-            
-            Button(action: {
+            HStack(spacing: 20) {
+                Button(action: {
+                    showAddTodoView.toggle()
+                }, label: {
+                    Image(systemName: "calendar.badge.plus")
+                        .font(.system(size: 24))
+                        .foregroundColor(.orange)
+                })
+                .sheet(isPresented: $showAddTodoView) {
+                    AddTodoView(viewModel: viewModel)
+                }
                 
-            }, label: {
-                Image(systemName: "person.fill")
-                    .font(.system(size: 30))
-                    .foregroundColor(.black)
-                    .padding(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 15))
-            })
+                Button(action: {
+                    // Action for profile button
+                }, label: {
+                    Image(systemName: "person.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(.black)
+                })
+            }
+            .padding(.trailing, 15)
         }
+        .padding(.vertical, 15)
+        .background(Color.white)
+        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
 }
 
@@ -64,23 +72,25 @@ private let dateFormatter: DateFormatter = {
 
 struct TodoListView: View {
     
-    @ObservedObject var viewModel = MainViewModel()
+    @ObservedObject var viewModel: MainViewModel
     
     var body: some View {
-        
         List {
             ForEach(viewModel.groupedItems.keys.sorted(), id: \.self) { date in
-                Section(header: Text("\(date, formatter: dateFormatter)")) {
+                Section(header: Text("\(date, formatter: dateFormatter)")
+                            .font(.headline)
+                            .foregroundColor(.orange)) {
                     ForEach(viewModel.groupedItems[date] ?? []) { item in
                         TodoCell(title: item.title, date: item.timeRemaining, image: item.image)
                     }
                 }
             }
-            .listRowInsets(EdgeInsets.init(top: 10, leading: 10, bottom: 10, trailing: 10))
+            .listRowInsets(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
         }
-        .listStyle(GroupedListStyle())
-        .frame(height: 300)
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+        .listStyle(InsetGroupedListStyle())
+        .frame(maxHeight: 350)
+        .padding(.horizontal, 10)
+        .padding(.top, 10)
     }
 }
 
@@ -91,41 +101,42 @@ struct TodoCell: View {
     var image: UIImage?
     
     var body: some View {
-        HStack {
+        HStack(spacing: 15) {
             ZStack {
                 if let image = image {
                     Image(uiImage: image)
                         .resizable()
+                        .scaledToFill()
                         .frame(width: 50, height: 50)
-                        .padding()
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 } else {
                     Image(systemName: "photo")
-                        .font(.system(size: 50))
+                        .resizable()
+                        .frame(width: 50, height: 50)
                         .foregroundColor(.white)
-                        .padding()
+                        .background(Color.gray)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             }
-            .frame(width: 100, height: 50)
+            .frame(width: 60, height: 60)
             
-            VStack(alignment: .leading, spacing: 0) {
-                
-                Divider().opacity(0)
-                
+            VStack(alignment: .leading, spacing: 5) {
                 Text(title)
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.headline)
                     .foregroundColor(.white)
-                    .padding(.bottom, 10)
                     .lineLimit(1)
                 
                 Text(date)
-                    .font(.footnote)
-                    .foregroundColor(.gray)
+                    .font(.subheadline)
+                    .foregroundColor(.white.opacity(0.7))
             }
+            
+            Spacer()
         }
-        .frame(height: 100, alignment: .center)
+        .padding()
         .background(Color.orange)
         .cornerRadius(15)
+        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
 }
 
@@ -139,9 +150,14 @@ struct CalendarView: View {
             selection: $date,
             displayedComponents: [.date]
         )
-        .datePickerStyle(.graphical)
+        .datePickerStyle(GraphicalDatePickerStyle())
         .environment(\.locale, Locale(identifier: "ko_KR"))
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+        .padding()
+        .background(Color.white)
+        .cornerRadius(15)
+        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+        .padding(.horizontal, 10)
+        .padding(.top, 10)
     }
 }
 
