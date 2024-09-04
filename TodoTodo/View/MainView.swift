@@ -76,16 +76,16 @@ struct TodoListView: View {
     
     var body: some View {
         List {
-            ForEach(viewModel.groupedItems.keys.sorted(), id: \.self) { date in
-                Section(header: Text("\(date, formatter: dateFormatter)")
-                            .font(.headline)
-                            .foregroundColor(.orange)) {
-                    ForEach(viewModel.groupedItems[date] ?? []) { item in
+            ForEach(viewModel.groupedItems.keys.sorted(by: >), id: \.self) { month in
+                Section(header: Text(month)
+                    .font(.headline)
+                    .foregroundColor(.orange)) {
+                    ForEach(viewModel.groupedItems[month] ?? []) { item in
                         TodoCell(title: item.title, date: item.timeRemaining, image: item.image)
                     }
                 }
             }
-            .listRowInsets(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
+            .listRowInsets(EdgeInsets.init(top: 10, leading: 10, bottom: 10, trailing: 10))
         }
         .listStyle(InsetGroupedListStyle())
         .frame(maxHeight: 350)

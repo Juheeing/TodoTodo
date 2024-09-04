@@ -8,11 +8,25 @@
 import Foundation
 import UIKit
 
-struct TodoItem: Identifiable {
-    let id = UUID()
+struct TodoItem: Identifiable, Codable {
+    var id = UUID()
     let title: String  // 일정 제목
     let dueDate: Date  // 일정 날짜
-    let image: UIImage?  // 이미지 (옵션)
+    let imageData: Data?  // 이미지 (옵션)
+    
+    init(title: String, dueDate: Date, image: UIImage? = nil) {
+        self.id = UUID()
+        self.title = title
+        self.dueDate = dueDate
+        self.imageData = image?.jpegData(compressionQuality: 1.0)
+    }
+    
+    var image: UIImage? {
+        if let imageData = imageData {
+            return UIImage(data: imageData)
+        }
+        return nil
+    }
     
     // 일정까지 남은 시간을 계산하는 프로퍼티
     var timeRemaining: String {

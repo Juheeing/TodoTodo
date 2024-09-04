@@ -10,20 +10,52 @@ import UIKit
 
 class MainViewModel: ObservableObject {
     
-    @Published var todoItems: [TodoItem] = []
-    
-    var groupedItems: [Date: [TodoItem]] {
-        Dictionary(grouping: todoItems) { (item: TodoItem) -> Date in
-            let calendar = Calendar.current
-            return calendar.startOfDay(for: item.dueDate)
+    @Published var todoItems: [TodoItem] = [] {
+        didSet {
+            saveItems()
         }
     }
     
-    /*init() {
-        todoItems = [
-            TodoItem(title: "쇼핑", dueDate: Date().addingTimeInterval(3600), image: UIImage(systemName: "cart")),
-            TodoItem(title: "프로젝트", dueDate: Date().addingTimeInterval(7200), image: nil),
-            TodoItem(title: "전화미팅", dueDate: Date().addingTimeInterval(108000), image: UIImage(systemName: "phone"))
-        ]
-    }*/
+    init() {
+        loadItems()
+    }
+    
+    // Group items by month and year
+    var groupedItems: [String: [TodoItem]] {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 M월"
+        
+        return Dictionary(grouping: todoItems) { (item: TodoItem) -> String in
+            return formatter.string(from: item.dueDate)
+        }
+    }
+    
+    // Save items to UserDefaults
+    private func saveItems() {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(todoItems) {
+            UserDefaults.standard.set(encoded, forKey: "todoItems")
+        }
+    }
+    
+    // Load items from UserDefaults
+    private func loadItems() {
+        if let savedItems = UserDefaults.standard.data(forKey: "todoItems") {
+            let decoder = JSONDecoder()
+            if let decodedItems = try? decoder.decode([TodoItem].self, from: savedItems) {
+                todoItems = decodedItems
+            }
+        }
+    }
+    
+    // Add a new TodoItem
+    func addTodoItem(title: String, dueDate: Date, image: UIImage?) {
+        let newItem = TodoItem(title: title, dueDate: dueDate, image: image)
+        todoItems.append(newItem)
+    }
+    
+    // Remove a TodoItem
+    func removeTodoItem(item: TodoItem) {
+        todoItems.removeAll { $0.id == item.id }
+    }
 }
