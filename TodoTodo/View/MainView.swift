@@ -105,6 +105,9 @@ struct TodoListView: View {
                 secondaryButton: .cancel(Text("아니요"))
             )
         }
+        .sheet(item: $selectedItem) { todo in
+            AddTodoView(viewModel: viewModel, todoItem: todo)
+        }
     }
 }
 
@@ -152,6 +155,9 @@ struct TodoCell: View {
         .background(isPressed ? Color.orange : Color.orange.opacity(0.5))
         .cornerRadius(15)
         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+        .onTapGesture {
+            selectedItem = item
+        }
         .onLongPressGesture(
             minimumDuration: 0.5,
             pressing: { isPressing in
@@ -161,7 +167,7 @@ struct TodoCell: View {
             },
             perform: {
                 selectedItem = item
-                showDeleteAlert = true
+                showDeleteAlert.toggle()
             }
         )
     }

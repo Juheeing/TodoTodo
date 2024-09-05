@@ -12,12 +12,25 @@ struct AddTodoView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: MainViewModel
+    var todoItem: TodoItem? = nil
     
     @State private var title: String = ""
     @State private var memo: String = ""
     @State private var date: Date = Date()
     @State private var pushOn: Bool = false
     @State private var image: UIImage? = nil
+    
+    init(viewModel: MainViewModel, todoItem: TodoItem? = nil) {
+        self.viewModel = viewModel
+        self.todoItem = todoItem
+        if let todoItem = todoItem {
+            _title = State(initialValue: todoItem.title)
+            _memo = State(initialValue: todoItem.memo ?? "")
+            _date = State(initialValue: todoItem.dueDate)
+            _pushOn = State(initialValue: todoItem.push)
+            _image = State(initialValue: todoItem.image)
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -33,14 +46,18 @@ struct AddTodoView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 20)
             }
-            .navigationBarTitle("할 일 추가", displayMode: .inline)
+            .navigationBarTitle(todoItem == nil ? "할 일 추가" : "할 일 수정", displayMode: .inline)
             .navigationBarItems(
                 leading: Button("취소") {
                     presentationMode.wrappedValue.dismiss()
                 }
                 .foregroundColor(.red),
-                trailing: Button("추가") {
-                    addTodo()
+                trailing: Button(todoItem == nil ? "추가" : "수정") {
+                    if todoItem != nil {
+                        updateTodo()
+                    } else {
+                        addTodo()
+                    }
                     presentationMode.wrappedValue.dismiss()
                 }
                 .foregroundColor(.orange)
@@ -49,8 +66,23 @@ struct AddTodoView: View {
     }
     
     private func addTodo() {
-        let newTodo = TodoItem(title: title, dueDate: date, image: image)
+        let newTodo = TodoItem(title: title, dueDate: date, image: image, push: pushOn, memo: memo)
         viewModel.todoItems.append(newTodo)
+    }
+    
+    private func updateTodo() {
+        print("updateTodo called")
+        if let index = viewModel.todoItems.firstIndex(where: { $0.id == todoItem?.id }) {
+            var updatedItem = viewModel.todoItems[index]
+            updatedItem.title = title
+            updatedItem.memo = memo
+            updatedItem.dueDate = date
+            updatedItem.push = pushOn
+            updatedItem.updateImage(newImage: image)
+            
+            viewModel.updateTodoItem(updatedItem)
+            print("Item updated")
+        }
     }
 }
 

@@ -6,21 +6,21 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 
 class MainViewModel: ObservableObject {
-    
     @Published var todoItems: [TodoItem] = [] {
         didSet {
-            saveItems()
+            saveTodoItems()
         }
     }
     
+    private let todoItemsKey = "todoItemsKey"
+
     init() {
-        loadItems()
+        loadTodoItems()
     }
     
-    // Group items by month and year
     var groupedItems: [String: [TodoItem]] {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 M월"
@@ -30,32 +30,47 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    // Save items to UserDefaults
-    private func saveItems() {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(todoItems) {
-            UserDefaults.standard.set(encoded, forKey: "todoItems")
+    // TodoItem을 UserDefaults에 저장
+    func saveTodoItems() {
+        do {
+            let encodedData = try JSONEncoder().encode(todoItems)
+            UserDefaults.standard.set(encodedData, forKey: todoItemsKey)
+            print("Todo items saved successfully.")
+        } catch {
+            print("Failed to encode todo items: \(error)")
         }
     }
-    
-    // Load items from UserDefaults
-    private func loadItems() {
-        if let savedItems = UserDefaults.standard.data(forKey: "todoItems") {
-            let decoder = JSONDecoder()
-            if let decodedItems = try? decoder.decode([TodoItem].self, from: savedItems) {
-                todoItems = decodedItems
-            }
+
+    // UserDefaults에서 TodoItem 불러오기
+    private func loadTodoItems() {
+        guard let savedData = UserDefaults.standard.data(forKey: todoItemsKey) else {
+            print("No saved data found.")
+            return
+        }
+        
+        do {
+            let decodedItems = try JSONDecoder().decode([TodoItem].self, from: savedData)
+            self.todoItems = decodedItems
+            print("Todo items loaded successfully.")
+        } catch {
+            print("Failed to decode todo items: \(error)")
         }
     }
-    
-    // Add a new TodoItem
-    func addTodoItem(title: String, dueDate: Date, image: UIImage?) {
-        let newItem = TodoItem(title: title, dueDate: dueDate, image: image)
-        todoItems.append(newItem)
+
+    // TodoItem 추가
+    func addTodoItem(_ item: TodoItem) {
+        todoItems.append(item)
     }
-    
-    // Remove a TodoItem
+
+    // TodoItem 삭제
     func removeTodoItem(item: TodoItem) {
         todoItems.removeAll { $0.id == item.id }
+    }
+    
+    // TodoItem 업데이트
+    func updateTodoItem(_ updatedItem: TodoItem) {
+        if let index = todoItems.firstIndex(where: { $0.id == updatedItem.id }) {
+            todoItems[index] = updatedItem
+        }
     }
 }
