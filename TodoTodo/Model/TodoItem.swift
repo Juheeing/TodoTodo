@@ -12,24 +12,21 @@ struct TodoItem: Identifiable, Codable {
     var id = UUID()
     var title: String  // 일정 제목
     var dueDate: Date  // 일정 날짜
-    var imageData: Data?  // 이미지 (옵션)
+    var imageFileName: String?  // 이미지 (옵션)
     var push: Bool
     var memo: String?
     
-    init(title: String, dueDate: Date, image: UIImage? = nil, push: Bool = false, memo: String? = nil) {
+    init(title: String, dueDate: Date, imageFileName: String? = nil, push: Bool = false, memo: String? = nil) {
         self.id = UUID()
         self.title = title
         self.dueDate = dueDate
-        self.imageData = image?.jpegData(compressionQuality: 1.0)
+        self.imageFileName = imageFileName
         self.push = push
         self.memo = memo
     }
     
     var image: UIImage? {
-        if let imageData = imageData {
-            return UIImage(data: imageData)
-        }
-        return nil
+        return imageFileName.flatMap { ImageStorageManager().loadImageFromFileSystem(fileName: $0) }
     }
     
     // 일정까지 남은 시간을 계산하는 프로퍼티
@@ -60,6 +57,6 @@ struct TodoItem: Identifiable, Codable {
     }
     
     mutating func updateImage(newImage: UIImage?) {
-        self.imageData = newImage?.jpegData(compressionQuality: 1.0)
+        self.imageFileName = newImage.flatMap { ImageStorageManager().saveImageToFileSystem(image: $0) }
     }
 }

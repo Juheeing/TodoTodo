@@ -19,6 +19,7 @@ struct AddTodoView: View {
     @State private var date: Date = Date()
     @State private var pushOn: Bool = false
     @State private var image: UIImage? = nil
+    private let imageStorageManager = ImageStorageManager()
     
     init(viewModel: MainViewModel, todoItem: TodoItem? = nil) {
         self.viewModel = viewModel
@@ -28,7 +29,7 @@ struct AddTodoView: View {
             _memo = State(initialValue: todoItem.memo ?? "")
             _date = State(initialValue: todoItem.dueDate)
             _pushOn = State(initialValue: todoItem.push)
-            _image = State(initialValue: todoItem.image)
+            _image = State(initialValue: imageStorageManager.loadImageFromFileSystem(fileName: todoItem.imageFileName ?? ""))
         }
     }
     
@@ -66,8 +67,9 @@ struct AddTodoView: View {
     }
     
     private func addTodo() {
-        let newTodo = TodoItem(title: title, dueDate: date, image: image, push: pushOn, memo: memo)
-        viewModel.todoItems.append(newTodo)
+        let fileName = image.flatMap { imageStorageManager.saveImageToFileSystem(image: $0) }
+        let newTodo = TodoItem(title: title, dueDate: date, imageFileName: fileName, push: pushOn, memo: memo)
+        viewModel.addTodoItem(newTodo)
     }
     
     private func updateTodo() {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D18FC4C22C8A786500D1FAE1 /* ImageStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18FC4C12C8A786500D1FAE1 /* ImageStorageManager.swift */; };
 		D5281E032C7365D900F50728 /* TodoTodoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5281E022C7365D900F50728 /* TodoTodoApp.swift */; };
 		D5281E052C7365D900F50728 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5281E042C7365D900F50728 /* ContentView.swift */; };
 		D5281E072C7365DA00F50728 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5281E062C7365DA00F50728 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		D18FC4C02C87F81D00D1FAE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D18FC4C12C8A786500D1FAE1 /* ImageStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageManager.swift; sourceTree = "<group>"; };
 		D5281DFF2C7365D900F50728 /* TodoTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5281E022C7365D900F50728 /* TodoTodoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTodoApp.swift; sourceTree = "<group>"; };
 		D5281E042C7365D900F50728 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				D5281E1F2C73692100F50728 /* Toast.swift */,
+				D18FC4C12C8A786500D1FAE1 /* ImageStorageManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				D5281E182C73686B00F50728 /* AddTodoView.swift in Sources */,
 				D5281E1A2C7368D000F50728 /* MyPageView.swift in Sources */,
 				D55838132C74B13200A7B961 /* MainViewModel.swift in Sources */,
+				D18FC4C22C8A786500D1FAE1 /* ImageStorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
