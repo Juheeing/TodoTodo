@@ -73,6 +73,8 @@ private let dateFormatter: DateFormatter = {
 struct TodoListView: View {
     
     @ObservedObject var viewModel: MainViewModel
+    @State private var showDeleteAlert = false
+    @State private var selectedItem: TodoItem? = nil
     
     var body: some View {
         List {
@@ -81,7 +83,7 @@ struct TodoListView: View {
                     .font(.headline)
                     .foregroundColor(.orange)) {
                     ForEach(viewModel.groupedItems[month] ?? []) { item in
-                        TodoCell(title: item.title, date: item.timeRemaining, image: item.image)
+                        TodoCell(selectedItem: $selectedItem, showDeleteAlert: $showDeleteAlert, item: item)
                     }
                 }
             }
@@ -91,19 +93,32 @@ struct TodoListView: View {
         .frame(maxHeight: 350)
         .padding(.horizontal, 10)
         .padding(.top, 10)
+        .alert(isPresented: $showDeleteAlert) {
+            Alert(
+                title: Text("일정 삭제"),
+                message: Text("해당 일정을 삭제하시겠습니까?"),
+                primaryButton: .destructive(Text("예")) {
+                    if let selectedItem = selectedItem {
+                        viewModel.removeTodoItem(item: selectedItem)
+                    }
+                },
+                secondaryButton: .cancel(Text("아니요"))
+            )
+        }
     }
 }
 
 struct TodoCell: View {
     
-    var title: String
-    var date: String
-    var image: UIImage?
+    @Binding var selectedItem: TodoItem?
+    @Binding var showDeleteAlert: Bool
+    @State private var isPressed: Bool = false
+    let item: TodoItem
     
     var body: some View {
         HStack(spacing: 15) {
             ZStack {
-                if let image = image {
+                if let image = item.image {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFill()
@@ -121,12 +136,12 @@ struct TodoCell: View {
             .frame(width: 60, height: 60)
             
             VStack(alignment: .leading, spacing: 5) {
-                Text(title)
+                Text(item.title)
                     .font(.headline)
                     .foregroundColor(.white)
                     .lineLimit(1)
                 
-                Text(date)
+                Text(item.timeRemaining)
                     .font(.subheadline)
                     .foregroundColor(.white.opacity(0.7))
             }
@@ -134,9 +149,21 @@ struct TodoCell: View {
             Spacer()
         }
         .padding()
-        .background(Color.orange)
+        .background(isPressed ? Color.orange : Color.orange.opacity(0.5))
         .cornerRadius(15)
         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+        .onLongPressGesture(
+            minimumDuration: 0.5,
+            pressing: { isPressing in
+                withAnimation {
+                    isPressed = isPressing
+                }
+            },
+            perform: {
+                selectedItem = item
+                showDeleteAlert = true
+            }
+        )
     }
 }
 
